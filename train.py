@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import time
 import os
 import copy
+import sys
 
 
 
@@ -26,9 +27,9 @@ def main():
     model_0, criterion, optimizer_conv, exp_lr_scheduler = getDefaultSettingsForModel()
 
 
-    ## Get path to dataset
+    ## Get path to dataset from command line argument passed
 
-    path = input("Enter the directory to the dataset: ")
+    path = sys.argv[1]
 
 
     ########## Finally Train the Model Now #######
