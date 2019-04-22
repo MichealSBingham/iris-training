@@ -33,7 +33,7 @@ def main():
 
     ########## Finally Train the Model Now #######
     model = train_model(model_0, path, criterion, optimizer_conv,
-                         exp_lr_scheduler, num_epochs=100)
+                         exp_lr_scheduler, num_epochs=25)
 
 
     ### Save model
