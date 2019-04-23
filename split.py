@@ -6,8 +6,8 @@ from sklearn.model_selection import train_test_split
 from shutil import copyfile
 import sys
 from progress.bar import IncrementalBar
+import numpy as np
 
-numfiles = 0
 # python split.py imagesPath sizeOfTestingData destinationPath
 def main():
 
@@ -29,8 +29,22 @@ def main():
 #Returns X_train, Y_train, X_test, Y_test, X_val, Y_val
 def split(X, Y, size):
     print("Spliting....")
+
+    """
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=size, random_state=1)
     X_train, X_val, Y_train, Y_val = train_test_split(X_train, Y_train, test_size=size, random_state=1)
+    """
+    X_train, x_remain = train_test_split(X, test_size=(size + size))
+    new_test_size = np.around(size / (size + size), 2)
+    new_val_size = 1.0 - new_test_size
+    X_val, X_test = train_test_split(x_remain, test_size=new_test_size)
+
+    Y_train, y_remain = train_test_split(Y, test_size=(size + size))
+    new_test_size = np.around(size / (size + size), 2)
+    new_val_size = 1.0 - new_test_size
+    Y_val, Y_test = train_test_split(y_remain, test_size=new_test_size)
+
+
     return X_train, Y_train, X_test, Y_test, X_val, Y_val
 
 
@@ -63,6 +77,7 @@ def getArraysOfImagePaths(path):
 
 def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
     ## Copy Training Data
+    print("Copying Files...")
 
     bar = IncrementalBar('Copying Training Data', max=len(X_train))
     for (path, class_name) in zip(X_train, Y_train):
@@ -96,7 +111,7 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
     bar2.finish()
 
     ## Copy Validation Data
-    bar3 = IncrementalBar('Copy Validation Data', max=len(X_test))
+    bar3 = IncrementalBar('Copy Validation Data', max=len(X_val))
     for (path, class_name) in zip(X_val, Y_val):
 
         file_path = path
