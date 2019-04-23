@@ -7,6 +7,7 @@ from shutil import copyfile
 import sys
 from progress.bar import IncrementalBar
 
+numfiles = 0
 # python split.py imagesPath sizeOfTestingData destinationPath
 def main():
 
@@ -32,11 +33,13 @@ def split(X, Y, size):
     X_train, X_val, Y_train, Y_val = train_test_split(X_train, Y_train, test_size=size, random_state=1)
     return X_train, Y_train, X_test, Y_test, X_val, Y_val
 
+
 # Lists all absolute paths of each file in the directory
 def getAllFilePaths(directory):
 
    for dirpath,_,filenames in os.walk(directory):
        for f in filenames:
+           numfiles = numfiles+1
            yield os.path.abspath(os.path.join(dirpath, f))
 
 
@@ -45,13 +48,14 @@ def getAllFilePaths(directory):
 def getArraysOfImagePaths(path):
     X = [] #Paths to Images
     Y = [] #Classification
-    paths = getAllFilePaths(path)
-    bar = IncrementalBar('Getting Image Paths', max=len(list(paths)))
-    for file in paths:
+    print("Getting All File Paths .. ")
+    bar = IncrementalBar('Getting Image Paths', max=numfiles)
+    for file in getAllFilePaths(path):
         class_name = os.path.split(os.path.dirname(file))[1]
         X.append(file)
         Y.append(class_name)
         bar.next()
+        sys.stdout.flush()
     bar.finish()
     return X, Y
 
