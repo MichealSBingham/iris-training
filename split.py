@@ -46,7 +46,7 @@ def getArraysOfImagePaths(path):
     X = [] #Paths to Images
     Y = [] #Classification
     paths = getAllFilePaths(path)
-    bar = IncrementalBar('Getting Image Paths', max=len(paths))
+    bar = IncrementalBar('Getting Image Paths', max=len(list(paths)))
     for file in paths:
         class_name = os.path.split(os.path.dirname(file))[1]
         X.append(file)
