@@ -34,19 +34,25 @@ def split(X, Y, size):
 
 # Lists all absolute paths of each file in the directory
 def getAllFilePaths(directory):
+
    for dirpath,_,filenames in os.walk(directory):
        for f in filenames:
            yield os.path.abspath(os.path.join(dirpath, f))
 
+
+
+
 def getArraysOfImagePaths(path):
     X = [] #Paths to Images
     Y = [] #Classification
-    print("Gathering Image Paths")
-    for file in getAllFilePaths(path):
+    paths = getAllFilePaths(path)
+    bar = IncrementalBar('Getting Image Paths', max=len(paths))
+    for file in paths:
         class_name = os.path.split(os.path.dirname(file))[1]
         X.append(file)
         Y.append(class_name)
-        print(str(file) + " :" + str(class_name))
+        bar.next()
+    bar.finish()
     return X, Y
 
 def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
