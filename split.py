@@ -36,10 +36,12 @@ def split(X, Y, size):
 
 # Lists all absolute paths of each file in the directory
 def getAllFilePaths(directory):
-
+print("get all file paths ...")
+counter = 0
    for dirpath,_,filenames in os.walk(directory):
        for f in filenames:
-           numfiles = numfiles+1
+           counter = counter +1
+           print("On file: " + str(counter))
            yield os.path.abspath(os.path.join(dirpath, f))
 
 
@@ -48,15 +50,15 @@ def getAllFilePaths(directory):
 def getArraysOfImagePaths(path):
     X = [] #Paths to Images
     Y = [] #Classification
-    print("Getting All File Paths .. ")
-    bar = IncrementalBar('Getting Image Paths', max=numfiles)
+    print("getArraysOfImagePaths .. ")
+    counter = 0
     for file in getAllFilePaths(path):
         class_name = os.path.split(os.path.dirname(file))[1]
         X.append(file)
         Y.append(class_name)
-        bar.next()
-        #sys.stdout.flush()
-    bar.finish()
+        counter = counter + 1
+        print("On image path: " + str(counter))
+        sys.stdout.flush()
     return X, Y
 
 def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
@@ -73,7 +75,7 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
         except:
             pass
         bar.next()
-        #sys.stdout.flush()
+        sys.stdout.flush()
     bar.finish()
 
     ## Copy Testing Data
@@ -88,7 +90,7 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
         except:
             pass
         bar2.next()
-        #sys.stdout.flush()
+        sys.stdout.flush()
 
 
     bar2.finish()
