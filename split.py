@@ -36,13 +36,13 @@ def split(X, Y, size):
 
 # Lists all absolute paths of each file in the directory
 def getAllFilePaths(directory):
-print("get all file paths ...")
-counter = 0
-   for dirpath,_,filenames in os.walk(directory):
-       for f in filenames:
-           counter = counter +1
-           print("On file: " + str(counter))
-           yield os.path.abspath(os.path.join(dirpath, f))
+    print("get all file paths ...")
+    counter = 0
+    for dirpath,_,filenames in os.walk(directory):
+        for f in filenames:
+            counter = counter +1
+            print("On file: " + str(counter))
+            yield os.path.abspath(os.path.join(dirpath, f))
 
 
 
