@@ -55,7 +55,7 @@ def getArraysOfImagePaths(path):
         X.append(file)
         Y.append(class_name)
         bar.next()
-        sys.stdout.flush()
+        #sys.stdout.flush()
     bar.finish()
     return X, Y
 
@@ -73,7 +73,7 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
         except:
             pass
         bar.next()
-        sys.stdout.flush()
+        #sys.stdout.flush()
     bar.finish()
 
     ## Copy Testing Data
@@ -88,7 +88,7 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
         except:
             pass
         bar2.next()
-        sys.stdout.flush()
+        #sys.stdout.flush()
 
 
     bar2.finish()
