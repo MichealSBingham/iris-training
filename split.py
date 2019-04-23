@@ -5,6 +5,7 @@ import os
 from sklearn.model_selection import train_test_split
 from shutil import copyfile
 import sys
+from progress.bar import IncrementalBar
 
 # python split.py imagesPath sizeOfTestingData destinationPath
 def main():
@@ -49,48 +50,55 @@ def getArraysOfImagePaths(path):
     return X, Y
 
 def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
-    print("Copying Files...")
     ## Copy Training Data
-    print("Copying Training Data...")
+
+    bar = IncrementalBar('Copying Training Data', max=len(X_train))
     for (path, class_name) in zip(X_train, Y_train):
 
         file_path = path
         file_name = os.path.basename(file_path)
         destination = dest+'/train/'+class_name+'/'+file_name
-        print("Copying: " + str(file_path) + " Destination: " + str(destination) + "...")
         try:
             copyfile(file_path, destination)
         except:
-            print("*****Couldn't copy  file: " + str(filename))
             pass
+        bar.next()
+        sys.stdout.flush()
+    bar.finish()
 
     ## Copy Testing Data
-    print("Copying Testing Data...")
+    bar2 = IncrementalBar('Copy Testing Data', max=len(X_test))
     for (path, class_name) in zip(X_test, Y_test):
 
         file_path = path
         file_name = os.path.basename(file_path)
         destination = dest+'/test/'+class_name+'/'+file_name
-        print("Copying: " + str(file_path) + " Destination: " + str(destination) + "...")
         try:
             copyfile(file_path, destination)
-        except error:
-            print("*****Couldn't copy  file: " + str(filename))
+        except:
             pass
+        bar2.next()
+        sys.stdout.flush()
+
+
+    bar2.finish()
 
     ## Copy Validation Data
-    print("Copying Validation Data...")
+    bar3 = IncrementalBar('Copy Validation Data', max=len(X_test))
     for (path, class_name) in zip(X_val, Y_val):
 
         file_path = path
         file_name = os.path.basename(file_path)
         destination = dest+'/val/'+class_name+'/'+file_name
-        print("Copying: " + str(file_path) + " Destination: " + str(destination) + "...")
         try:
             copyfile(file_path, destination)
         except:
-            print("*****Couldn't copy  file: " + str(filename))
             pass
+        bar3.next()
+        sys.stdout.flush()
+
+
+    bar3.finish()
 
 
 main()
