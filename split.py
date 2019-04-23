@@ -53,6 +53,7 @@ def split(X, Y, size):
 def getAllImagePaths(directory):
     X = []
     Y = []
+    counter = 0
     print("Getting paths of all images ...")
 
     for dirpath,_,filenames in os.walk(directory):
@@ -61,6 +62,10 @@ def getAllImagePaths(directory):
             class_name = os.path.split(os.path.dirname(file))[1]
             X.append(file)
             Y.append(class_name)
+            counter = counter +1
+            print("On file: " + str(counter))
+            sys.stdout.flush()
+
     return X,Y
 
 """
