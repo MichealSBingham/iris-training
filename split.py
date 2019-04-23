@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from shutil import copyfile
 import sys
 from progress.bar import IncrementalBar
+from tqdm import tqdm
 import numpy as np
 
 # python split.py imagesPath sizeOfTestingData destinationPath
@@ -17,7 +18,6 @@ def main():
     dest = sys.argv[3]
     print("Path to Destination : "+ str(dest))
     X, Y = getAllImagePaths(images_path)
-    print("Spliting...")
     X_train, Y_train, X_test, Y_test, X_val, Y_val  = split(X,Y, size)
     print("Done Spliting.")
     copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest)
@@ -53,18 +53,18 @@ def split(X, Y, size):
 def getAllImagePaths(directory):
     X = []
     Y = []
-    counter = 0
     print("Getting paths of all images ...")
 
-    for dirpath,_,filenames in os.walk(directory):
+    for dirpath,_,filenames in tqdm(os.walk(directory)):
+        thisBar = IncrementalBar('Joining Image Paths', max=len(filenames), suffix = '%(percent).1f%% - %(eta)ds')
         for f in filenames:
             file =  os.path.abspath(os.path.join(dirpath, f)) #absolute file path
             class_name = os.path.split(os.path.dirname(file))[1]
             X.append(file)
             Y.append(class_name)
-            counter = counter +1
-            print("On file: " + str(counter))
-            sys.stdout.flush()
+            thisBar.next()
+            #sys.stdout.flush()
+    thisBar.finish()
 
     return X,Y
 
@@ -89,7 +89,7 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
     ## Copy Training Data
     print("Copying Files...")
 
-    bar = IncrementalBar('Copying Training Data', max=len(X_train))
+    bar = IncrementalBar('Copying Training Data', max=len(X_train), suffix = '%(percent).1f%% - %(eta)ds')
     for (path, class_name) in zip(X_train, Y_train):
 
         file_path = path
@@ -104,7 +104,7 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
     bar.finish()
 
     ## Copy Testing Data
-    bar2 = IncrementalBar('Copy Testing Data', max=len(X_test))
+    bar2 = IncrementalBar('Copy Testing Data', max=len(X_test), suffix = '%(percent).1f%% - %(eta)ds')
     for (path, class_name) in zip(X_test, Y_test):
 
         file_path = path
@@ -121,7 +121,7 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
     bar2.finish()
 
     ## Copy Validation Data
-    bar3 = IncrementalBar('Copy Validation Data', max=len(X_val))
+    bar3 = IncrementalBar('Copy Validation Data', max=len(X_val), suffix = '%(percent).1f%% - %(eta)ds')
     for (path, class_name) in zip(X_val, Y_val):
 
         file_path = path
