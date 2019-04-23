@@ -10,10 +10,13 @@ import sys
 def main():
 
     images_path = sys.argv[1]
+    print("Path to Images : "+ str(images_path))
     size = float(sys.argv[2])
     dest = sys.argv[3]
+    print("Path to Destination : "+ str(dest))
     X, Y = getArraysOfImagePaths(images_path)
     X_train, Y_train, X_test, Y_test, X_val, Y_val  = split(X,Y, size)
+    print("Done Spliting.")
     copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest)
 
 
@@ -23,6 +26,7 @@ def main():
 #Y - [Classification] (array with classification of image ) String
 #Returns X_train, Y_train, X_test, Y_test, X_val, Y_val
 def split(X, Y, size):
+    print("Spliting....")
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=size, random_state=1)
     X_train, X_val, Y_train, Y_val = train_test_split(X_train, Y_train, test_size=size, random_state=1)
     return X_train, Y_train, X_test, Y_test, X_val, Y_val
@@ -36,52 +40,57 @@ def getAllFilePaths(directory):
 def getArraysOfImagePaths(path):
     X = [] #Paths to Images
     Y = [] #Classification
+    print("Gathering Image Paths")
     for file in getAllFilePaths(path):
         class_name = os.path.split(os.path.dirname(file))[1]
         X.append(file)
         Y.append(class_name)
+        print(str(file) + " :" + str(class_name))
     return X, Y
 
 def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
-
+    print("Copying Files...")
     ## Copy Training Data
+    print("Copying Training Data...")
     for (path, class_name) in zip(X_train, Y_train):
-        while True:
-            file_path = path
-            file_name = os.path.basename(file_path)
-            destination = dest+'/'+class_name+'/'+file_name
-            print("Copying: " + str(file_path) + "...")
-            try:
-                copyfile(file_path, destination)
-            except:
-                print("Couldn't copy this file.")
-                pass
+
+        file_path = path
+        file_name = os.path.basename(file_path)
+        destination = dest+'/train/'+class_name+'/'+file_name
+        print("Copying: " + str(file_path) + " Destination: " + str(destination) + "...")
+        try:
+            copyfile(file_path, destination)
+        except:
+            print("*****Couldn't copy  file: " + str(filename))
+            pass
 
     ## Copy Testing Data
+    print("Copying Testing Data...")
     for (path, class_name) in zip(X_test, Y_test):
-        while True:
-            file_path = path
-            file_name = os.path.basename(file_path)
-            destination = dest+'/'+class_name+'/'+file_name
-            print("Copying: " + str(file_path) + "...")
-            try:
-                copyfile(file_path, destination)
-            except error:
-                print("Couldn't copy this file.")
-                pass
+
+        file_path = path
+        file_name = os.path.basename(file_path)
+        destination = dest+'/test/'+class_name+'/'+file_name
+        print("Copying: " + str(file_path) + " Destination: " + str(destination) + "...")
+        try:
+            copyfile(file_path, destination)
+        except error:
+            print("*****Couldn't copy  file: " + str(filename))
+            pass
 
     ## Copy Validation Data
+    print("Copying Validation Data...")
     for (path, class_name) in zip(X_val, Y_val):
-        while True:
-            file_path = path
-            file_name = os.path.basename(file_path)
-            destination = dest+'/'+class_name+'/'+file_name
-            print("Copying: " + str(file_path) + "...")
-            try:
-                copyfile(file_path, destination)
-            except:
-                print("Couldn't copy this file.")
-                pass
+
+        file_path = path
+        file_name = os.path.basename(file_path)
+        destination = dest+'/val/'+class_name+'/'+file_name
+        print("Copying: " + str(file_path) + " Destination: " + str(destination) + "...")
+        try:
+            copyfile(file_path, destination)
+        except:
+            print("*****Couldn't copy  file: " + str(filename))
+            pass
 
 
 main()
