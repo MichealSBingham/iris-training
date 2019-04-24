@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 from sklearn.model_selection import train_test_split
 from shutil import copyfile
+from shutil import move
 import sys
 from progress.bar import IncrementalBar
 from tqdm import tqdm
@@ -63,7 +64,7 @@ def getAllImagePaths(directory):
             X.append(file)
             Y.append(class_name)
             thisBar.next()
-            sys.stdout.flush()
+            #sys.stdout.flush()
     thisBar.finish()
 
     return X,Y
@@ -96,7 +97,7 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
         file_name = os.path.basename(file_path)
         destination = dest+'/train/'+class_name+'/'+file_name
         try:
-            copyfile(file_path, destination)
+            move(file_path, destination)
         except:
             pass
         bar.next()
