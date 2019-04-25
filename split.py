@@ -56,7 +56,7 @@ def getAllImagePaths(directory):
     Y = []
     print("Getting paths of all images ...")
 
-    thisBar = IncrementalBar('Joining Image Paths', max=len(filenames), suffix = '%(percent).1f%% - %(eta)ds')
+#    thisBar = IncrementalBar('Joining Image Paths', max=len(filenames), suffix = '%(percent).1f%% - %(eta)ds')
 
     for dirpath,_,filenames in tqdm(os.walk(directory)):
         for f in filenames:
@@ -64,9 +64,9 @@ def getAllImagePaths(directory):
             class_name = os.path.split(os.path.dirname(file))[1]
             X.append(file)
             Y.append(class_name)
-            thisBar.next()
+        #    thisBar.next()
             #sys.stdout.flush()
-    thisBar.finish()
+#    thisBar.finish()
 
     return X,Y
 
