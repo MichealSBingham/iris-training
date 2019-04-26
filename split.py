@@ -46,7 +46,7 @@ def split(X, Y, size):
     new_val_size = 1.0 - new_test_size
     Y_val, Y_test = train_test_split(y_remain, test_size=new_test_size)
 
-    print("Sizes \n . X Train: "  + str(X_train) + "\nY_test: " + str(Y_test) "\n" +str(X_test) + "\nY_val: " + str(Y_val) )
+    print("Sizes \n . X Train: "  + str(X_train) + "\nY_test: " + str(Y_test) + "\n" +str(X_test) + "\nY_val: " + str(Y_val) )
 
     return X_train, Y_train, X_test, Y_test, X_val, Y_val
 
