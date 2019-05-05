@@ -12,37 +12,6 @@ pip install -r requirements.txt
 
 Note that even after installing the requirements, you may get a Library Not Found Error and have to install one more library on some machines. 
 
-
-## Prepare Directories 
-
-
-(1). Put the dataset root into the project folder /iris 
-	- It should have a structure like so: 
-				/iris
-					-/ucf-crime-dataset 
-						-/abuse 
-							-..Videos of abuse 
-							 ...
-						-/theft 
-							-... Videos of theft 
-						/...
-						/...
-						/Rest of Categories...
-
-(2) Make a new folder in the same directory of the iris repository named 'dataset' and create the following folders inside it. (Without copying the videos. This directory should be empty for now with only folders)
-				/dataset 
-					/test 
-						/abuse 
-						/theft
-						/etc. (Folder names must be the same as the folder names in the crime dataset)
-					/train
-						/abuse 
-						/theft
-						/etc. (Folder names must be the same as the folder names in the crime dataset)
-					/val 
-						/abuse 
-						/theft
-						/etc. (Folder names must be the same as the folder names in the crime dataset)
  
 ## Split the video dataset into test/train/val sets
 
