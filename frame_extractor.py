@@ -151,7 +151,7 @@ def moveNormalFramesOut(path):
 
 def main(): 
 	dataset_path = input("Enter the location of the video dataset (the one you just created): ")
-	#convertAllVideosToFrames(dataset_path)
+	convertAllVideosToFrames(dataset_path)
 	moveNormalFramesOut(dataset_path)
 
 
