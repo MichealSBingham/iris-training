@@ -99,6 +99,10 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
         file_name = os.path.basename(file_path)
         destination = dest+'/train/'+class_name+'/'+file_name
         try:
+            try:
+                os.mkdir(destination)
+            except:
+                pass
             move(file_path, destination)
         except:
             pass
@@ -114,6 +118,10 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
         file_name = os.path.basename(file_path)
         destination = dest+'/test/'+class_name+'/'+file_name
         try:
+            try:
+                os.mkdir(destination)
+            except:
+                pass
             move(file_path, destination)
         except:
             pass
@@ -131,6 +139,10 @@ def copyFiles(X_train, Y_train, X_test, Y_test, X_val, Y_val, dest):
         file_name = os.path.basename(file_path)
         destination = dest+'/val/'+class_name+'/'+file_name
         try:
+            try:
+                os.mkdir(destination)
+            except:
+                pass
             move(file_path, destination)
         except:
             pass

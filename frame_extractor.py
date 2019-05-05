@@ -13,7 +13,15 @@ import csv
 from pathlib import Path
 
 
-annotations = get_video_annotations()
+
+
+def get_video_annotations():
+	with open('annotations.csv', mode='r') as file:
+		reader = csv.reader(file, delimiter=' ')
+		return {rows[0]:[rows[2],rows[4], rows[6], rows[8], rows[10]] for rows in reader}
+
+
+
 
 def output_frames(input_loc, output_loc):
     """Function to extract frames from input video file
@@ -62,6 +70,7 @@ def output_frames(input_loc, output_loc):
 
 
 def convertAllVideosToFrames(path):
+	print("Converting Videos to Frames...")
 	for root, dirs, files in os.walk(os.path.abspath(path)):
 		for file in files:
 			file_path = os.path.join(root, file)
@@ -82,38 +91,50 @@ def convertAllVideosToFrames(path):
 
 
 
-
-
 def moveNormalFramesOut(path):
+
+	annotations = get_video_annotations()
+	print("Moving normal frames out")
 	for root, dirs, files in os.walk(os.path.abspath(path)):
 		for file in files:
 			file_path = os.path.join(root, file)
-			print("File path: " + str(file_path))
+			#print("File path: " + str(file_path))
 			head, frame_file_name = os.path.split(file_path)
 			head2, frame_class_name = os.path.split(head)
 			parent, data_group_name = os.path.split(head2)
+			parent2, data_type_name = os.path.split(parent) #data_type_name val,test, train
 			frame_name_no_extention = os.path.splitext(frame_file_name)[0]
 		#	dest = path + '/' + data_group_name + '/' + video_class_name + '/' + video_name_no_extention
 			
 			try:
 				video_name = str(frame_file_name.split('-')[0]) + '.mp4'
-				print("Video Name: " + video_name)
+				#print("Video Name: " + video_name)
 
 				frame_number = int(frame_file_name.split('-')[1].replace('.jpg', ''))
-				print("Frame Number: " + str(frame_number))
+				#print("Frame Number: " + str(frame_number))
 
-				start_action1 = annotations[video_name][1]
-				end_action1 = annotations[video_name][2]
-				start_action2 = annotations[video_name][3]
-				end_action2 = annotations[video_name][4]
+				#print(annotations[video_name])
 
-				
-				if  (start_action1 <= frame_number <= end_action1) or (start_action2 <= frame_number <= end_action2):
-					#The frame is during an event of action so keep it 
+				start_action1 = int(annotations[video_name][1])
+				end_action1 = int(annotations[video_name][2])
+				start_action2 = int(annotations[video_name][3])
+				end_action2 = int(annotations[video_name][4])
+
+				if (start_action1 <= frame_number <= end_action1 ) or (start_action2 <= frame_number <= end_action2 ):
+					#Frame is during the event 
+					print(str(start_action1) + ' <= ' + str(frame_number) + ' <= ' + str(end_action1) + '\t' + str(start_action2) + ' <= ' + str(frame_number) + ' <= ' + str(end_action2))
 				else: 
-					#Move it to normal folder 
-					dest_normal = path + '/' + data_group_name + '/' + "normal" + '/' + video_name_no_extention
-					move(file_path, dest_normal)
+					if (start_action1==-1 and end_action1==-1 and start_action2==-1 and end_action2==-1): 
+						print("It's a normal frame. Do Nothing")
+					else:		
+						#print("ELSE!!!!!")
+						dest_normal = path + '/' + data_type_name + '/' + "normal" + '/' + str(frame_file_name.split('-')[0]) + '/'
+						try: 
+							os.mkdir(dest_normal)
+						except:
+							pass
+						print("Moving Frame...********************************************* to : " + str(dest_normal))
+						move(file_path, dest_normal)
 
 
 			except: 
@@ -122,26 +143,16 @@ def moveNormalFramesOut(path):
 
 
 
-def get_video_annotations():
-	with open('annotations.csv', mode='r') as file:
-		reader = csv.reader(file, delimiter=' ')
-		return {rows[0]:[rows[2],rows[4], rows[6], rows[8], rows[10]] for rows in reader}
 
 
 
-
-
-
-def getFrameNumberOfImage():
-	return 0 
 
 
 
 def main(): 
-	inpt = input("Enter the location of the video: ")
-	outpt = input("Enter where to output the frames: ")
-	#output_frames(inpt, outpt) # Outputs videos as folder of frames in dataset 
-	move_all_normal_frames_out(inpt)
+	dataset_path = input("Enter the location of the video dataset (the one you just created): ")
+	#convertAllVideosToFrames(dataset_path)
+	moveNormalFramesOut(dataset_path)
 
 
 
