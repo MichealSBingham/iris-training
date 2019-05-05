@@ -16,9 +16,9 @@ from pathlib import Path
 
 
 def get_video_annotations():
-	with open('annotations.csv', mode='r') as file:
+	with open('ucf-annotations.csv', mode='r') as file:
 		reader = csv.reader(file, delimiter=' ')
-		return {rows[0]:[rows[2],rows[4], rows[6], rows[8], rows[10]] for rows in reader}
+		return {rows[0]:[rows[1],rows[2], rows[3], rows[4], rows[5]] for rows in reader}
 
 
 
