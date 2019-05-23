@@ -13,7 +13,13 @@ import csv
 from pathlib import Path
 
 
-
+def trainTestOrVal(path):
+        if 'test' in path:
+                return 'test'
+        elif 'train' in path:
+                return 'train'
+        else:
+                return 'val'
 
 def get_video_annotations():
 	with open('ucf-annotations.csv', mode='r') as file:
@@ -54,7 +60,7 @@ def output_frames(input_loc, output_loc):
         # Extract the frame
         ret, frame = cap.read()
         # Write the results back to output location.
-        cv2.imwrite(output_loc + '/' + video_name_no_extention + "-" + "%d.jpg" % (count+1), frame)
+        cv2.imwrite(output_loc + '\\' + video_name_no_extention + "-" + "%d.jpg" % (count+1), frame)
         count = count + 1
         # If there are no more frames left
         if (count > (video_length-1)):
@@ -79,7 +85,8 @@ def convertAllVideosToFrames(path):
 			head2, video_class_name = os.path.split(head)
 			parent, data_group_name = os.path.split(head2)
 			video_name_no_extention = os.path.splitext(video_file_name)[0]
-			dest = path + '/' + data_group_name + '/' + video_class_name + '/' + video_name_no_extention
+			#dest = path + '\\' + data_group_name + '\\' + video_class_name + '\\' + video_name_no_extention
+			dest = str(file_path).replace('.mp4', '')
 			print("video_file_nameFile : " + str(video_file_name))
 			print("video_class_name : " + str(video_class_name))
 			print("data_group_name : " + str(data_group_name))
@@ -128,11 +135,9 @@ def moveNormalFramesOut(path):
 						print("It's a normal frame. Do Nothing")
 					else:		
 						#print("ELSE!!!!!")
-						dest_normal = path + '/' + data_type_name + '/' + "normal" + '/' + str(frame_file_name.split('-')[0]) + '/'
-						try: 
-							os.mkdir(dest_normal)
-						except:
-							pass
+						dest_normal = path + '\\' + trainTestOrVal(file_path) + '\\' + "normal" + '\\' + str(frame_file_name.split('-')[0]) + '\\'
+						if not os.path.exists(dest_normal):
+                                                        os.mkdir(dest_normal)
 						print("Moving Frame...********************************************* to : " + str(dest_normal))
 						move(file_path, dest_normal)
 
@@ -151,7 +156,7 @@ def moveNormalFramesOut(path):
 
 def main(): 
 	dataset_path = input("Enter the location of the video dataset (the one you just created): ")
-	convertAllVideosToFrames(dataset_path)
+	#convertAllVideosToFrames(dataset_path)
 	moveNormalFramesOut(dataset_path)
 
 
