@@ -137,7 +137,7 @@ def moveNormalFramesOut(path):
 						#print("ELSE!!!!!")
 						dest_normal = path + '\\' + trainTestOrVal(file_path) + '\\' + "normal" + '\\' + str(frame_file_name.split('-')[0]) + '\\'
 						if not os.path.exists(dest_normal):
-                                                        os.mkdir(dest_normal)
+							os.mkdir(dest_normal)
 						print("Moving Frame...********************************************* to : " + str(dest_normal))
 						move(file_path, dest_normal)
 

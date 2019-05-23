@@ -33,6 +33,34 @@ python frame_extractor.py
 
 Enter the path to 'dataset' and you're done
 
+## Training 
+
+Make sure the dataset is in the directory of the project. The name of the folder should be 'dataset'. The folder should have a structure like the following: 
+	- dataset 
+		\ train 
+			- Abuse 
+				- 1001.jpg
+				- 1002.jpg 
+				... 
+			...
+		\test 
+			- Abuse 
+				- 1001.jpg
+				- 1002.jpg 
+				... 
+			...
+		\val 
+			- Abuse 
+				- 1001.jpg
+				- 1002.jpg 
+				... 
+			...
+
+Now run the training file. 
+```bash
+python train_cnn.py
+``` 
+
 ## Authors and acknowledgment
 
 Created by Yours Truly Micheal S. Bingham 
