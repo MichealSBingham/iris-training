@@ -1,4 +1,5 @@
-import os 
+import os
+import csv
 
 
 def getFilePaths(directory):
@@ -40,7 +41,7 @@ def get_image_class(file):
 
 def main(): 
 	path = input("Enter the path of the dataset: ")
-	with open('iris_frame_filepaths', mode='w') as csvFile:
+	with open('iris_frame_filepaths.txt', mode='w') as csvFile:
 		iris_csv_writer = csv.writer(csvFile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		
 		counter = 0 
@@ -63,7 +64,7 @@ def main():
 
 	print("Done.")
 
-
+main()
 
 
 

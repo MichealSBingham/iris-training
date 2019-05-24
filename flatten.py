@@ -18,11 +18,11 @@ def flatten( here ):
         if root != here:
             for name in files:
                 source = joinPath( root, name )
-                target = handleDuplicates( joinPath( here, name ) )
+                target = handleDuplicates( joinPath( here, name )  )
                 os.rename( source, target )
 
         for name in dirs:
-            os.rmdir( joinPath( root, name ) )
+           os.rmdir( joinPath( root, name ) )
 
 def handleDuplicates( target ):
     while exists( target ):
@@ -33,26 +33,26 @@ def handleDuplicates( target ):
 
 def main():
 
-	train_path = os.path.joinPath('dataset', 'train')
-	test_path = os.path.joinPath('dataset', 'test')
-	val_path = os.path.joinPath('dataset', 'val')
+	train_path = joinPath('dataset', 'train')
+	test_path = joinPath('dataset', 'test')
+	val_path = joinPath('dataset', 'val')
 
 	print("Flattening file structure ... ")
 
 	#Flatten the files images in the train folder 
 	print("Flattening train structure ... ")
 	for category in classes: 
-		class_path = os.path.joinPath(train_path, category)
+		class_path = joinPath(train_path, category)
 		class_path = abspath( dirname( class_path ) )
 		flatten(class_path)
 	print("Flattening test structure ... ")
 	for category in classes: 
-		class_path = os.path.joinPath(test_path, category)
+		class_path = joinPath(test_path, category)
 		class_path = abspath( dirname( class_path ) )
 		flatten(class_path)
 	print("Flattening val structure ... ")
 	for category in classes: 
-		class_path = os.path.joinPath(val_path, category)
+		class_path = joinPath(val_path, category)
 		class_path = abspath( dirname( class_path ) )
 		flatten(class_path)
 
