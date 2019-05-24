@@ -43,17 +43,17 @@ def main():
 	print("Flattening train structure ... ")
 	for category in classes: 
 		class_path = joinPath(train_path, category)
-		class_path = abspath( dirname( class_path ) )
+		class_path = abspath(  class_path  )
 		flatten(class_path)
 	print("Flattening test structure ... ")
 	for category in classes: 
 		class_path = joinPath(test_path, category)
-		class_path = abspath( dirname( class_path ) )
+		class_path = abspath(  class_path  )
 		flatten(class_path)
 	print("Flattening val structure ... ")
 	for category in classes: 
 		class_path = joinPath(val_path, category)
-		class_path = abspath( dirname( class_path ) )
+		class_path = abspath( class_path )
 		flatten(class_path)
 
 	print("Done.")
