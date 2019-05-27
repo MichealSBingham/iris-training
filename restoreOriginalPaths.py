@@ -1,5 +1,5 @@
 ## Restore Original File Paths 
-
+import os
 from flatten import flatten 
 from os.path import dirname, abspath, basename, exists, splitext
 import csv
@@ -17,7 +17,7 @@ def toPath(path_array):
 # Moves a file to a new path
 def move(file, new_path):
 	if not os.path.exists(new_path):
-		os.mkdirs(new_path)
+		os.makedirs(new_path)
 
 	shutil.move(file, new_path)
 
@@ -25,7 +25,7 @@ def move(file, new_path):
 
 def main():
 	# Flatten the entire dataset 
-	flatten('dataset')
+	#flatten('dataset')
 
 	csv_filename = input("Enter the name of the csv file with the original file paths: ")
 	if '.txt' not in csv_filename:
@@ -35,12 +35,13 @@ def main():
 	#Read each line in csv 
 
 	with open(csv_filename) as csv_file: 
-		reader = csv.reader(csv_filename, delimiter = ',')
+		reader = csv.reader(csv_file, delimiter = ',')
 		counter = 0 
 		for row in reader: 
-			if not (len(row) == 0):
+			if (len(row) > 1):
 				path_string = row[0]
-				path = toPath(path_string)
+				print(row)
+				path = toPath(path_string.split('\\'))
 				image = basename(path) #the name of the image etc 1001.jpg 
 				image_path = os.path.join('dataset', image)
 				move(image_path, dirname(path))
@@ -51,7 +52,7 @@ def main():
 	print("Done")
 
 
-
+main()
 
 
 

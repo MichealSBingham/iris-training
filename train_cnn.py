@@ -46,14 +46,14 @@ def get_generators():
     train_generator = train_datagen.flow_from_directory(
         os.path.join('dataset', 'train'),
         target_size=(299, 299),
-        batch_size=32,
+        batch_size=128,
         classes=classes,
         class_mode='categorical')
 
     validation_generator = test_datagen.flow_from_directory(
         os.path.join('dataset', 'val'),
         target_size=(299, 299),
-        batch_size=32,
+        batch_size=128,
         classes=classes,
         class_mode='categorical')
 
@@ -140,7 +140,7 @@ def main(weights_file):
 
     # Get and train the mid layers.
     model = freeze_all_but_mid_and_top(model)
-    model = train_model(model, 1000, generators,
+    model = train_model(model, 100, generators,
                         [checkpointer, early_stopper, tensorboard])
 
 if __name__ == '__main__':
